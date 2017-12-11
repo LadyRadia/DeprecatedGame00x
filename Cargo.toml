@@ -1,0 +1,8 @@
+[package]
+name = "RustyRogue"
+version = "0.1.0"
+authors = ["Beamed <beamed@umich.edu>"]
+
+[dependencies]
+ggez = { git = "https://github.com/ggez/ggez" }
+serde_json = "1.0"
