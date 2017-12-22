@@ -1,8 +1,16 @@
 [package]
+authors = ["Beamed <beamed@umich.edu>"]
 name = "RustyRogue"
 version = "0.1.0"
-authors = ["Beamed <beamed@umich.edu>"]
 
 [dependencies]
-ggez = { git = "https://github.com/ggez/ggez" }
+log = "0.3.8"
+log4rs = "0.7"
 serde_json = "1.0"
+piston = "0.35.0"
+piston2d-graphics = "0.24.0"
+pistoncore-glutin_window = "0.43.0"
+piston2d-opengl_graphics = "0.50.0"
+#tcod = "0.12.1"
+#pancurses = "0.13"
+
