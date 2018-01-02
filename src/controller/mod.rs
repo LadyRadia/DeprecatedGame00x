@@ -11,6 +11,7 @@ use self::opengl_graphics::{ GlGraphics, OpenGL };
 
 use ::view::Views;
 use ::view::map_view::MapView;
+use ::view::console_view::ConsoleView;
 use ::model::Model;
 use ::model::input::Input;
 
@@ -36,6 +37,7 @@ impl Controller {
     pub fn initialize_controller() -> Controller {
         
         Controller {
+            //default to res for now
             views: ::view::Views::new(),
             model: ::model::Model::new()
         }
@@ -51,9 +53,11 @@ impl Controller {
         
 
         self.views.addView(Box::new(MapView::new()));
+        self.views.addView(Box::new(ConsoleView::new()));
 
         while let Some(e) = events.next(&mut window) {
             if !self.handle_input(&e) {
+                //TODO the following shouldn't run if no changes are really identified. 
                 if let Some(args) = e.render_args() {
                     self.views.notify(&self.model, &mut window, &mut gfx, args);
                 }
