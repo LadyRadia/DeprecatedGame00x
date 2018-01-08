@@ -51,4 +51,12 @@ impl Map {
     pub fn get_tiles(&self) -> &Vec<Tile> {
         &self.tiles
     }
+
+    pub fn get_width(&self) -> u32 {
+        self.width
+    }
+
+    pub fn get_height(&self) -> u32 {
+        self.height
+    }
 }

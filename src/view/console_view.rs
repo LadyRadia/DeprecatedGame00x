@@ -1,8 +1,8 @@
 use ::view::Viewer;
 use ::model::Model;
-use controller::opengl_graphics::{ GlGraphics, OpenGL };
-use controller::graphics::*;
-use controller::graphics::rectangle::*;
+use opengl_graphics::{ GlGraphics, OpenGL, GlyphCache };
+use graphics::*;
+use graphics::rectangle::*;
 
 pub struct ConsoleView {
 }
@@ -16,7 +16,7 @@ impl ConsoleView {
 }
 
 impl Viewer for ConsoleView {
-    fn notify(&mut self, m: &Model, ctx: &mut Context, gfx: &mut GlGraphics, res: [u32; 2]) {
+    fn notify(&mut self, m: &Model, glyphs: &mut GlyphCache, ctx: &mut Context, gfx: &mut GlGraphics, res: [u32; 2]) {
         debug!("consoleview change notified");
         let border = Border {
             color: color::WHITE,

@@ -1,13 +1,9 @@
-pub extern crate piston;
-pub extern crate graphics;
-pub extern crate glutin_window;
-pub extern crate opengl_graphics;
-
-use self::piston::window::WindowSettings;
-use self::piston::event_loop::*;
-use self::piston::input::*;
-use self::glutin_window::GlutinWindow as Window;
-use self::opengl_graphics::{ GlGraphics, OpenGL };
+use piston::window::WindowSettings;
+use piston::event_loop::*;
+use piston::input::*;
+use glutin_window::GlutinWindow as Window;
+use opengl_graphics::{ GlGraphics, OpenGL, TextureSettings, Filter };
+use std::path::Path;
 
 use ::view::Views;
 use ::view::map_view::MapView;
@@ -15,9 +11,9 @@ use ::view::console_view::ConsoleView;
 use ::model::Model;
 use ::model::input::Input;
 
-pub struct Controller {
-    views: Views,
-    model: Model
+pub struct Controller<'a> {
+    views: Views<'a>,
+    model: Model,
 }
 ///this function does the dirty work of turning keyboard input
 ///into input the model knows to ingest and properly update state with
@@ -33,33 +29,37 @@ pub fn key_to_input(key: Key) -> Input {
     }
 }
 
-impl Controller {
-    pub fn initialize_controller() -> Controller {
-        
-        Controller {
-            //default to res for now
-            views: ::view::Views::new(),
-            model: ::model::Model::new()
-        }
-    }
-
-    pub fn run(&mut self) -> Result<bool, String> {
+impl<'a> Controller<'a> {
+    pub fn run_client_application() -> Result<bool, String> {
         let opengl = OpenGL::V3_2;
         
         let mut window : Window = WindowSettings::new("Chi", [1024, 768]).opengl(opengl).exit_on_esc(true).build().expect("Unable to initialize OpenGL context");
+        //as we add 'idle' animations we want to remove the lazy true, but for now limiting redraw requests sounds dope:
         let mut events = Events::new(EventSettings::new().lazy(true));
+        //(move to ggez if we don't care about lazy? worth consideration..)
         let mut gfx = GlGraphics::new(opengl);
+        let texture_settings = TextureSettings::new().filter(Filter::Nearest);
 
-        
+        let mut controller = Controller {
+            model: ::model::Model::new(),
+            views: Views::new(Path::new("./assets/kato.ttf"), texture_settings),
+        };
+        controller.views.addView(Box::new(MapView::new()));
+        controller.views.addView(Box::new(ConsoleView::new()));
+        controller.run(events, window, gfx)
 
-        self.views.addView(Box::new(MapView::new()));
-        self.views.addView(Box::new(ConsoleView::new()));
+    }
+
+    pub fn run(&mut self, mut events: Events, mut window: Window, mut gfx: GlGraphics) -> Result<bool, String> {
 
         while let Some(e) = events.next(&mut window) {
             if !self.handle_input(&e) {
                 //TODO the following shouldn't run if no changes are really identified. 
                 if let Some(args) = e.render_args() {
-                    self.views.notify(&self.model, &mut window, &mut gfx, args);
+                    match self.views.notify(&self.model, &mut window, &mut gfx, args) {
+                        Err(view_error) => error!("View notification failed."),
+                        _ => ()//no-op if it worked
+                    }
                 }
             }
         }
