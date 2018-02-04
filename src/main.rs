@@ -1,6 +1,12 @@
 #[macro_use]
 extern crate log;
 extern crate log4rs;
+pub extern crate piston;
+pub extern crate graphics;
+pub extern crate glutin_window;
+pub extern crate opengl_graphics;
+
+
 
 use std::env;
 use std::path;
@@ -13,8 +19,8 @@ use controller::Controller;
 
 fn main() {
     initialize_logging();
-    let mut controller = Controller::initialize_controller();
-    match controller.run() {
+
+    match Controller::run_client_application() {
         Ok(done) => info!("Exiting Chi"),
         Err(err) => error!("Error running Chi: {}", err)
     }    
