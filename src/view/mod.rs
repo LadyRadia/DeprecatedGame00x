@@ -2,7 +2,8 @@ use ::model::Model;
 
 use controller::opengl_graphics::{ GlGraphics, OpenGL };
 use controller::glutin_window::GlutinWindow as Window;
-use controller::piston::event::RenderArgs;
+
+use controller::piston::input::RenderArgs;
 
 mod console_view;
 
@@ -31,7 +32,7 @@ impl Views {
         }
     }
 
-    pub fn addView(&mut self, v: Box<Viewer>) {
+    pub fn add_view(&mut self, v: Box<Viewer>) {
         self.views.push(v)
     }
 }

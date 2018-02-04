@@ -50,7 +50,7 @@ impl Controller {
 
         
 
-        self.views.addView(Box::new(MapView::new()));
+        self.views.add_view(Box::new(MapView::new()));
 
         while let Some(e) = events.next(&mut window) {
             if !self.handle_input(&e) {
