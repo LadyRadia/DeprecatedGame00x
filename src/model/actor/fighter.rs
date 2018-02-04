@@ -1,5 +1,5 @@
 //TODO there has to be a better way to do this, right?
-use ::model::actor::Actor;
+use model::actor::*;
 
 pub struct Fighter {
     pub name: String,
@@ -22,5 +22,9 @@ impl Actor for Fighter {
 
     fn get_pos(&self) -> [u32; 2] {
         self.pos
+    }
+
+    fn get_actor_type(&self) -> ActorType {
+        ActorType::Player
     }
 }

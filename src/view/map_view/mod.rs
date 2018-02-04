@@ -78,7 +78,6 @@ impl MapView {
         //yeah we're type-casting here, who cares, what are the odds something terrible will happen OH OGD
         let tile_width  = ((map_dim.mapw_end - map_dim.mapw_start)/ VIEW_WIDTH);
         let tile_height  = ((map_dim.maph_end - map_dim.maph_start)  / VIEW_HEIGHT);
-        debug!("map info: bottom_bound {} top_bound {} left_bound {} right_bound {} tile_width {} tile_height {}", bottom_bound, top_bound, left_bound, right_bound, tile_width, tile_height);
         //now, render squares!
         for row in top_bound..bottom_bound {
             for col in left_bound..right_bound {
@@ -88,7 +87,7 @@ impl MapView {
                     height: tile_height,
                     start_corner_x: cur_x,
                     start_corner_y: cur_y,
-                    player_present: player_on_tile,
+                    coord: (col, row),
                 };
                 tile.draw(model, glyphs, ctx, gfx);
                 cur_x += tile_width;

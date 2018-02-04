@@ -42,10 +42,10 @@ impl<'a> Controller<'a> {
 
         let mut controller = Controller {
             model: ::model::Model::new(),
-            views: Views::new(Path::new("./assets/kato.ttf"), texture_settings),
+            views: Views::new(Path::new("./assets/ChiFont.ttf"), texture_settings),
         };
-        controller.views.addView(Box::new(MapView::new()));
-        controller.views.addView(Box::new(ConsoleView::new()));
+        controller.views.add_view(Box::new(MapView::new()));
+        controller.views.add_view(Box::new(ConsoleView::new()));
         controller.run(events, window, gfx)
 
     }

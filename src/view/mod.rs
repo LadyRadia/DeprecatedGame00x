@@ -48,7 +48,7 @@ impl<'a> Views<'a> {
         Ok(true)
     }
 
-    pub fn addView(&mut self, v: Box<Viewer>) {
+    pub fn add_view(&mut self, v: Box<Viewer>) {
         self.views.push(v)
     }
 }

@@ -1,5 +1,6 @@
 mod tile;
 use self::tile::Tile;
+use ::model::Actor;
 
 pub struct Map {
     tiles: Vec<Tile>,
@@ -58,5 +59,13 @@ impl Map {
 
     pub fn get_height(&self) -> u32 {
         self.height
+    }
+
+    pub fn get_actor_at_location(&self, x: u32, y: u32) -> &Option<Box<Actor>> {
+        if let Ok(tile) = self.get_tile(x, y) {
+            &tile.actor
+        }  else {
+            &None
+        }
     }
 }
