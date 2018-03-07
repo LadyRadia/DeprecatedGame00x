@@ -36,6 +36,7 @@ impl MapTile {
         let dimensions = rectangle_by_corners(self.start_corner_x, self.start_corner_y, self.start_corner_x + self.width, self.start_corner_y + self.height);
         rect.draw(dimensions, &ctx.draw_state, ctx.transform, gfx);
         if let &Some(ref actor) = model.get_actor_at_location(self.coord.0, self.coord.1) {
+            debug!("Rendering actor at location: ({}, {})", self.coord.0, self.coord.1);
             let symbol = fetch_player_symbol(actor.get_actor_type());
             let font_size : u32 = cmp::min((2 * self.width as u32 / 3), (2 * self.height as u32 / 3)) + 1;
             if let Ok(actor_symbol) = glyph_cache.character(font_size, symbol) {
@@ -47,7 +48,9 @@ impl MapTile {
                     ctx.transform.trans(self.start_corner_x + font_size as f64 / 3., self.start_corner_y + font_size as f64 / 3.),
                     gfx
                 );
-            } 
+            } else {
+                warn!("Unable to find cache for actor: {:?}", actor.get_actor_type());
+            }
         }
 
     }

@@ -11,6 +11,7 @@ pub trait Actor {
     fn get_actor_type(&self) -> ActorType;
 }
 
+#[derive(Debug)]
 pub enum ActorType {
     Player,
     Enemy,

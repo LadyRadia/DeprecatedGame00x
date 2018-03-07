@@ -38,7 +38,7 @@ impl Model {
 
     //should we even wrap this? is it OK to expose map to views? probably..
     pub fn get_actor_at_location(&self, x: u32, y: u32) -> &Option<Box<Actor>> {
-        debug!("fetching actor at {},{}", x, y);
+        //debug!("fetching actor at {},{}", x, y);
         self.map.get_actor_at_location(x, y)
     }
 }
